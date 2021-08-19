@@ -1,0 +1,29 @@
+.filterContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.findContactTitle {
+  display: flex;
+  align-items: center;
+}
+
+.findContactIcon {
+  margin-left: 5px;
+}
+
+.filterInput {
+  width: 250px;
+  height: 25px;
+  border: 1px solid black;
+  font-size: 14px;
+  font-style: normal;
+  margin-bottom: 15px;
+}
+
+.filterInput:focus {
+  border: 2px solid rgb(74, 173, 235);
+  outline: transparent;
+}

@@ -1,0 +1,17 @@
+.mainTitle,
+.contactsTitle {
+  text-align: center;
+}
+
+.mainTitle {
+  color: rgb(31, 111, 190);
+  font-size: 38px;
+  font-weight: 900;
+}
+
+.phonebookWrapper {
+  max-width: 720px;
+  margin: 20px auto;
+  border: 1px solid rgba(0, 170, 255, 0.489);
+  background-color: rgba(95, 158, 160, 0.347);
+}
