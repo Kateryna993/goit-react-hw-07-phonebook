@@ -43,9 +43,9 @@ export default function ContactForm() {
     ) {
       alert(`This contact was already added!`);
     } else {
-      return dispatch(addContact({ name, number }));
+      dispatch(addContact({ name, number }));
     }
-    // onSubmit(name, number);
+
     reset();
   };
 
