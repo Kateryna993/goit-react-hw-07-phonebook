@@ -2,15 +2,16 @@ import { useState } from 'react';
 // import PropTypes from 'prop-types';
 import shortid from 'shortid';
 import styles from './Form.module.css';
-import { useDispatch } from 'react-redux';
-import actions from '../../redux/actions/contacts';
-// import { BsPersonPlusFill } from 'react-icons';
+import { useDispatch, useSelector } from 'react-redux';
 import { BsPersonPlusFill } from 'react-icons/bs';
+import { getContacts } from '../../redux/contacts/contacts-selectors';
+import { addContact } from '../../redux/contacts/contacts-operations';
 
 export default function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
 
   const nameInputId = shortid.generate();
   const phoneInputId = shortid.generate();
@@ -34,7 +35,16 @@ export default function ContactForm() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(actions.addContact(name, number));
+
+    if (
+      contacts.find(
+        contact => contact.name === name || contact.number === number,
+      )
+    ) {
+      alert(`This contact was already added!`);
+    } else {
+      return dispatch(addContact({ name, number }));
+    }
     // onSubmit(name, number);
     reset();
   };

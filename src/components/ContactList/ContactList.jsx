@@ -1,28 +1,30 @@
 import React from 'react';
-import { /* connect, */ useSelector, useDispatch } from 'react-redux';
-// import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import styles from './ContactList.module.css';
-import actions from '../../redux/actions/contacts';
 import { AiOutlineUserDelete } from 'react-icons/ai';
-
-const handleFilteredContacts = (contacts, filter) => {
-  const normalizedFilter = filter.toLowerCase();
-  return contacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizedFilter),
-  );
-};
+import ClipLoader from 'react-spinners/ClipLoader';
+import {
+  fetchContacts,
+  deleteContact,
+} from '../../redux/contacts/contacts-operations';
+import {
+  handleFilteredContacts,
+  isLoading,
+} from '../../redux/contacts/contacts-selectors';
 
 export default function ContactList() {
-  const contactsList = useSelector(({ contacts: { items, filter } }) =>
-    handleFilteredContacts(items, filter),
-  );
-
+  const contacts = useSelector(handleFilteredContacts);
+  const loading = useSelector(isLoading);
   const dispatch = useDispatch();
-  const deleteContacts = id => dispatch(actions.deleteContact(id));
+  const deleteContacts = id => dispatch(deleteContact(id));
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <ul className={styles.contactList}>
-      {contactsList.map(({ id, name, number }) => (
+      {contacts.map(({ id, name, number }) => (
         <li key={id} className={styles.contactItem}>
           <p className={styles.contactName}>
             {name}: &nbsp;{number}
@@ -37,27 +39,7 @@ export default function ContactList() {
           </button>
         </li>
       ))}
+      {loading && <ClipLoader size={50} />}
     </ul>
   );
 }
-
-// ContactList.propTypes = {
-//   contacts: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       id: PropTypes.string,
-//       name: PropTypes.string,
-//       number: PropTypes.string,
-//     }),
-//   ),
-//   deleteContacts: PropTypes.func,
-// };
-
-// const mapStateToProps = ({ contacts: { items, filter } }) => ({
-//   contactsList: handleFilteredContacts(items, filter),
-// });
-
-// const mapDispatchToProps = dispatch => ({
-//   deleteContacts: id => dispatch(actions.deleteContact(id)),
-// });
-
-// export default connect(mapStateToProps, mapDispatchToProps)(ContactList);

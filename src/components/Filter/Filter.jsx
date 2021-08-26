@@ -2,12 +2,13 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import styles from './Filter.module.css';
 import { /* connect, */ useSelector, useDispatch } from 'react-redux';
-import actions from '../../redux/actions/contacts';
-
+// import actions from '../../redux/actions/contacts';
+import { changeFilter } from '../../redux/contacts/contacts-actions';
+import { getFilter } from '../../redux/contacts/contacts-selectors';
 import { FcSearch } from 'react-icons/fc';
 
 const Filter = () => {
-  const value = useSelector(state => state.contacts.filter);
+  const value = useSelector(getFilter);
   const dispatch = useDispatch();
   return (
     <div className={styles.filterContainer}>
@@ -19,7 +20,7 @@ const Filter = () => {
         type="text"
         name="filter"
         value={value}
-        onChange={event => dispatch(actions.changeFilter(event.target.value))}
+        onChange={event => dispatch(changeFilter(event.target.value))}
       />
     </div>
   );
